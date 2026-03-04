@@ -16,32 +16,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
-
-      - name: Enable Corepack
-        run: corepack enable
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: |
-          if [ -f pnpm-lock.yaml ]; then
-            corepack prepare pnpm@latest --activate
-            pnpm install --frozen-lockfile
-          else
-            npm ci || npm install
-          fi
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: |
-          if [ -f pnpm-lock.yaml ]; then pnpm lint; else npm run lint; fi
+        run: pnpm lint
 
       - name: Test
-        run: |
-          if [ -f pnpm-lock.yaml ]; then pnpm test; else npm test; fi
+        run: pnpm test
 
       - name: Build
-        run: |
-          if [ -f pnpm-lock.yaml ]; then pnpm build; else npm run build; fi
+        run: pnpm build
