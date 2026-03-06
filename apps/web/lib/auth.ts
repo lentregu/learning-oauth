@@ -16,7 +16,7 @@ for (const [key, value] of Object.entries(requiredEnvVars)) {
 }
 
 // Build providers array conditionally
-const providers = [
+const providers: NextAuthOptions['providers'] = [
   GoogleProvider({
     clientId: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
